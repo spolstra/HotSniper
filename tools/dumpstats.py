@@ -91,8 +91,14 @@ if do_markers:
     print >> sys.stderr, "--markers could not be fetched"
     sys.exit(1)
 
+  f = open("markers.stat", "w")
+  f.write("timestamp,"+ "core,"+"thread,"+"value0,"+ "value1,"+"description\n")
   for timestamp, core, thread, value0, value1, description in markers:
     print format_event(timestamp, core, thread, format_marker(value0, value1, description))
+    dumpvalues = str(timestamp/1e6) + "," + str(core) + "," +  str(thread) + "," +  str(value0) + "," + str(value1) + "," + str(description) + "\n"
+    f.write(dumpvalues)
+  f.close()
+
 
 if do_events:
   import sniper_stats
