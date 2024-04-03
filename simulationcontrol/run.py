@@ -262,7 +262,7 @@ def example():
 
         min_parallelism = get_feasible_parallelisms(benchmark)[0]
         max_parallelism = get_feasible_parallelisms(benchmark)[-1]
-        for freq in (1, 2):
+        for freq in (2, ):
             #for parallelism in (max_parallelism,):
             for parallelism in (3, ):
                 # you can also use try_run instead
@@ -270,6 +270,10 @@ def example():
 
 def ondemand_demo():
     run(['{:.1f}GHz'.format(4), 'ondemand', 'fastDVFS'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
+
+def coldestcore_demo():
+    run(['{:.1f}GHz'.format(2.4), 'maxFreq', 'slowDVFS', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
+
 
 def multi_program():
     # In this example, two instances of blackscholes will be scheduled.
@@ -303,7 +307,8 @@ def test_static_power():
 
 def main():
     #example()
-    ondemand_demo()
+    #ondemand_demo()
+    coldestcore_demo()
     #test_static_power()
     # multi_program()
 
