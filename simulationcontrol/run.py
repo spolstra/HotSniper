@@ -274,6 +274,9 @@ def ondemand_demo():
 def coldestcore_demo():
     run(['{:.1f}GHz'.format(2.4), 'maxFreq', 'slowDVFS', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
 
+def ondemand_coldestcore_demo():
+    run(['{:.1f}GHz'.format(2.4), 'slowDVFS', 'ondemand', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
+
 
 def multi_program():
     # In this example, two instances of blackscholes will be scheduled.
@@ -308,7 +311,8 @@ def test_static_power():
 def main():
     #example()
     #ondemand_demo()
-    coldestcore_demo()
+    #coldestcore_demo()
+    ondemand_coldestcore_demo()
     #test_static_power()
     # multi_program()
 
