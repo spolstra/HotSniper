@@ -4,11 +4,12 @@
 using namespace std;
 ColdestCore::ColdestCore(const PerformanceCounters *performanceCounters,
                          int coreRows, int coreColumns,
-                         float criticalTemperature)
+                         float criticalTemperature, bool idle_only)
     : performanceCounters(performanceCounters),
       coreRows(coreRows),
       coreColumns(coreColumns),
-      criticalTemperature(criticalTemperature) {}
+      criticalTemperature(criticalTemperature),
+      idle_only(idle_only) {}
 std::vector<int> ColdestCore::map(String taskName, int taskCoreRequirement,
                                   const std::vector<bool> &availableCoresRO,
                                   const std::vector<bool> &activeCores) {
@@ -54,7 +55,7 @@ std::vector<migration> ColdestCore::migrate(
                     migration m;
                     m.fromCore = c;
                     m.toCore = targetCore;
-                    m.swap = false;
+                    m.swap = availableCores.at(targetCore) ? false : true;
                     migrations.push_back(m);
                     availableCores.at(targetCore) = false;
                 }
@@ -68,7 +69,8 @@ int ColdestCore::getColdestCore(const std::vector<bool> &availableCores) {
     float coldestTemperature = 0;
     // iterate all cores to find coldest
     for (int c = 0; c < coreRows * coreColumns; c++) {
-        if (availableCores.at(c)) {
+        // if (true || availableCores.at(c)) {
+        if (idle_only ? availableCores.at(c) : true) {
             float temperature = performanceCounters->getTemperatureOfCore(c);
             if ((coldestCore == -1) || (temperature < coldestTemperature)) {
                 coldestCore = c;

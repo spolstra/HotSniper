@@ -266,13 +266,13 @@ def example():
             #for parallelism in (max_parallelism,):
             for parallelism in (3, ):
                 # you can also use try_run instead
-                run(['{:.1f}GHz'.format(freq), 'maxFreq', 'slowDVFS'], get_instance(benchmark, parallelism, input_set='simsmall'))
+                run(['{:.1f}GHz'.format(freq), 'maxFreq'], get_instance(benchmark, parallelism, input_set='simsmall'))
 
 def ondemand_demo():
     run(['{:.1f}GHz'.format(4), 'ondemand', 'fastDVFS'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
 
 def coldestcore_demo():
-    run(['{:.1f}GHz'.format(2.4), 'maxFreq', 'slowDVFS', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
+    run(['{:.1f}GHz'.format(4), 'maxFreq', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
 
 def ondemand_coldestcore_demo():
     run(['{:.1f}GHz'.format(2.4), 'slowDVFS', 'ondemand', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
@@ -311,8 +311,8 @@ def test_static_power():
 def main():
     #example()
     #ondemand_demo()
-    #coldestcore_demo()
-    ondemand_coldestcore_demo()
+    coldestcore_demo()
+    #ondemand_coldestcore_demo()
     #test_static_power()
     # multi_program()
 

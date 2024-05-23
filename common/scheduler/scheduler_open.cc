@@ -286,7 +286,9 @@ void SchedulerOpen::initMappingPolicy(String policyName) {
 	} else if (policyName == "coldestCore") {
         float criticalTemperature = Sim()->getCfg()->getFloat(
             "scheduler/open/migration/coldestCore/criticalTemperature");
-        mappingPolicy = new ColdestCore(performanceCounters, coreRows, coreColumns, criticalTemperature);
+        bool idle_only = Sim()->getCfg()->getBool(
+            "scheduler/open/migration/coldestCore/only_migrate_to_idle_cores");
+        mappingPolicy = new ColdestCore(performanceCounters, coreRows, coreColumns, criticalTemperature, idle_only);
     } else { //else if (policyName ="XYZ") {... } //Place to instantiate a new mapping
 		cout << "\n[Scheduler] [Error]: Unknown Mapping Algorithm" << endl;
  		exit (1);
@@ -343,7 +345,9 @@ void SchedulerOpen::initMigrationPolicy(String policyName) {
 		migrationPolicy = NULL;
 	} else if (policyName == "coldestCore") {
         float criticalTemperature = Sim()->getCfg()->getFloat( "scheduler/open/migration/coldestCore/criticalTemperature");
-        migrationPolicy = new ColdestCore(performanceCounters, coreRows, coreColumns, criticalTemperature);
+        bool idle_only = Sim()->getCfg()->getBool(
+            "scheduler/open/migration/coldestCore/only_migrate_to_idle_cores");
+        migrationPolicy = new ColdestCore(performanceCounters, coreRows, coreColumns, criticalTemperature, idle_only);
     } else {
 		cout << "\n[Scheduler] [Error]: Unknown Migration Algorithm" << endl;
  		exit (1);

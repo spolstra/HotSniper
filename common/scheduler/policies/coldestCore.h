@@ -13,7 +13,7 @@ core
 class ColdestCore : public MappingPolicy, public MigrationPolicy {
    public:
     ColdestCore(const PerformanceCounters *performanceCounters, int coreRows,
-                int coreColumns, float criticalTemperature);
+                int coreColumns, float criticalTemperature, bool idle_only);
     virtual std::vector<int> map(String taskName, int taskCoreRequirement,
                                  const std::vector<bool> &availableCores,
                                  const std::vector<bool> &activeCores);
@@ -26,6 +26,7 @@ class ColdestCore : public MappingPolicy, public MigrationPolicy {
     unsigned int coreRows;
     unsigned int coreColumns;
     float criticalTemperature;
+    bool idle_only;
     int getColdestCore(const std::vector<bool> &availableCores);
     void logTemperatures(const std::vector<bool> &availableCores);
 };
