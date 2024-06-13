@@ -16,6 +16,7 @@
 #include "policies/dvfsFixedPower.h"
 #include "policies/dvfsTestStaticPower.h"
 #include "policies/mapFirstUnused.h"
+#include "policies/freqHopper.h"
 
 #include <iomanip>
 #include <random>
@@ -301,6 +302,9 @@ void SchedulerOpen::initDVFSPolicy(String policyName) {
 	} else if (policyName == "fixedPower") {
 		float perCorePowerBudget = Sim()->getCfg()->getFloat("scheduler/open/dvfs/fixed_power/per_core_power_budget");
 		dvfsPolicy = new DVFSFixedPower(performanceCounters, coreRows, coreColumns, minFrequency, maxFrequency, frequencyStepSize, perCorePowerBudget);
+	} else if (policyName == "freqHopper") {
+		int switchPeriod = Sim()->getCfg()->getInt("scheduler/open/dvfs/freq_hopper/period");
+		dvfsPolicy = new dvfsFreqHopper(performanceCounters, coreRows, coreColumns, minFrequency, maxFrequency, switchPeriod);
 	} else {
 		cout << "\n[Scheduler] [Error]: Unknown DVFS Algorithm" << endl;
  		exit (1);

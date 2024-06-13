@@ -486,7 +486,7 @@ elif sim_end == 'last-restart':
   sniperoptions.append('-g --traceinput/restart_apps=true')
 
 if use_viz:
-  scripts.append('periodic-stats:1000:2000')
+  scripts.append('periodic-stats:1000000:2000')
   scripts.append('markers:markers')
 if use_viz_aso or use_profile:
   sniperoptions.append('-g --instruction_tracer/type=fpstats')
