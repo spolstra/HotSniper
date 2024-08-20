@@ -18,6 +18,7 @@
 #include "policies/mapFirstUnused.h"
 
 #include "policies/dvfsOndemand.h"
+#include "policies/dvfsOndemandThermal.h"
 #include "policies/coldestCore.h"
 
 #include <iomanip>
@@ -328,6 +329,20 @@ void SchedulerOpen::initDVFSPolicy(String policyName) {
                 dtmCriticalTemperature,
                 dtmRecoveredTemperature
                 );
+    } else if (policyName == "ondemand_thermal") {
+        float dtmCriticalTemperature = Sim()->getCfg()->getFloat(
+                "scheduler/open/dvfs/ondemand_thermal/dtm_critical_temperature");
+        float dtmRecoveredTemperature = Sim()->getCfg()->getFloat(
+                "scheduler/open/dvfs/ondemand_thermal/dtm_recovered_temperature");
+        dvfsPolicy = new DVFSOndemandThermal(
+                performanceCounters,
+                coreRows,
+                coreColumns,
+                minFrequency,
+                maxFrequency,
+                frequencyStepSize,
+                dtmCriticalTemperature,
+                dtmRecoveredTemperature);
     } else {
 		cout << "\n[Scheduler] [Error]: Unknown DVFS Algorithm" << endl;
  		exit (1);

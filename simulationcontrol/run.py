@@ -271,6 +271,10 @@ def example():
 def ondemand_demo():
     run(['{:.1f}GHz'.format(4), 'ondemand', 'fastDVFS'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
 
+def ondemand_thermal_demo():
+    run(['{:.1f}GHz'.format(4), 'ondemand_thermal', 'slowDVFS'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
+
+
 def coldestcore_demo():
     run(['{:.1f}GHz'.format(2.4), 'maxFreq', 'slowDVFS', 'coldestCore'], get_instance('parsec-blackscholes', 3, input_set='simsmall'))
 
@@ -311,8 +315,9 @@ def test_static_power():
 def main():
     #example()
     #ondemand_demo()
+    ondemand_thermal_demo()
     #coldestcore_demo()
-    ondemand_coldestcore_demo()
+    #ondemand_coldestcore_demo()
     #test_static_power()
     # multi_program()
 
