@@ -20,6 +20,9 @@ SNIPER_BASE = os.path.dirname(HERE)
 BENCHMARKS = os.path.join(SNIPER_BASE, 'benchmarks')
 BATCH_START = datetime.datetime.now().strftime('%Y-%m-%d_%H.%M')
 
+GDB_OPTIONS = ''
+# To enable debugging uncomment the line below
+#GDB_OPTIONS = ' --gdb-server'
 
 def change_base_configuration(base_configuration):
     base_cfg = os.path.join(SNIPER_BASE, 'config/base.cfg')
@@ -141,6 +144,8 @@ def run(base_configuration, benchmark, ignore_error=False, perforation_script: s
                 perforation=' -s'+perforation_script,
                 benchmark_options=''.join([' -B ' + opt for opt in benchmark_options]))
     
+    if GDB_OPTIONS:
+        args += GDB_OPTIONS
     console_output = ''
 
     print(args)

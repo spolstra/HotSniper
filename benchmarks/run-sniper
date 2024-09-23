@@ -52,7 +52,7 @@ verbose = False
 if not sys.argv[1:]:
   usage()
 
-opts_passthrough = [ 'profile', 'perf', 'gdb', 'gdb-wait', 'gdb-quit', 'appdebug', 'appdebug-manual', 'appdebug-enable', 'power', 'cache-only', 'fast-forward', 'no-cache-warming', 'save-patch', 'pin-stats', 'viz', 'viz-aso', 'wrap-sim=', 'sift' ]
+opts_passthrough = [ 'profile', 'perf', 'gdb', 'gdb-wait', 'gdb-quit', 'gdb-server', 'appdebug', 'appdebug-manual', 'appdebug-enable', 'power', 'cache-only', 'fast-forward', 'no-cache-warming', 'save-patch', 'pin-stats', 'viz', 'viz-aso', 'wrap-sim=', 'sift' ]
 
 try:
   opts, args = getopt.getopt(sys.argv[1:], "hvp:i:B:n:m:s:d:c:r:g:", [ "no-roi", "roi-script", "roi", "sim-end=", "save-run", "save-run-prefix=", "save-run-second-stage=", "benchmarks=" ] + opts_passthrough)

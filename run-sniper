@@ -29,6 +29,7 @@ def usage():
         '  [--gdb]' + \
         '  [--gdb-wait]' + \
         '  [--gdb-quit]' + \
+        '  [--gdb-server]' + \
         '  [--appdebug]' + \
         '  [--appdebug-manual]' + \
         '  [--appdebug-enable]' + \
@@ -78,6 +79,7 @@ use_wrap_sim = None
 use_gdb = False
 gdb_wait = False
 gdb_quit = False
+gdb_server = False
 use_appdebug = False
 appdebug_manual = False
 appdebug_nowait = False
@@ -208,7 +210,7 @@ try:
       "viz", "viz-aso",
       "profile", "memory-profile", "cheetah",
       "perf", "valgrind", "wrap-sim=",
-      "gdb", "gdb-wait", "gdb-quit",
+      "gdb", "gdb-wait", "gdb-quit", "gdb-server",
       "appdebug", "appdebug-manual", "appdebug-enable",
       "follow-execv=",
       "power",
@@ -294,6 +296,10 @@ for o, a in opts:
     use_gdb = True
     gdb_wait = False
     gdb_quit = True
+  if o == '--gdb-server':
+    use_gdb = True
+    gdb_wait = True
+    gdb_server = True
   if o == '--appdebug':
     use_appdebug = True
   if o == '--appdebug-manual':
@@ -720,6 +726,8 @@ if standalone:
     f = open(fn, 'w')
     # When using GDB in standalone mode, do not set the LD_LIBRARY_PATH for GDB, but instead set the shared library path inside GDB for debugging Sniper-standalone
     f.write("set environment LD_LIBRARY_PATH = %s\n" % env['LD_LIBRARY_PATH'])
+    if gdb_server:
+        gdbserver_ld_lib = env['LD_LIBRARY_PATH'] # save for gdbserver
     del env['LD_LIBRARY_PATH']
     # Create a GDB command file to handle --gdb, --gdb-wait and --gdb-quit for standalone mode
     if not gdb_wait:
@@ -732,6 +740,8 @@ if standalone:
       f.write('end\n')
     f.close()
     gdbcmd = 'gdb -quiet --command=%(fn)s %(HOME)s/lib/sniper --args ' % locals()
+    if gdb_server:
+      gdbcmd = 'LD_LIBRARY_PATH=%(gdbserver_ld_lib)s gdbserver localhost:7000 %(HOME)s/lib/sniper ' % locals()
   elif use_wrap_sim:
     gdbcmd = '%(use_wrap_sim)s ' % locals()
   else:
